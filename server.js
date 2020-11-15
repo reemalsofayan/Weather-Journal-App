@@ -30,7 +30,6 @@ app.get('/allData', getData)
 function getData (request, response) {
     response.send(projectData);
 
-    //console.log(projectData);
     projectData = [];
 
 }
