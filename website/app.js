@@ -53,6 +53,22 @@ const postData = async (url = '', data = {}) => {
 
 
 
+const UpdateInterface = async () => {
+    const request = await fetch(localhostURL+'/allData');
+    try {
+       const result = await request.json();
+        
+       document.getElementById('temp').innerHTML = result[0].temperature;
+       document.getElementById('date').innerHTML = result[0].date;
+       document.getElementById('content').innerHTML = result[0].user_response;
+    }
+    catch (error) {
+        console.log('error', error);
+    }
+}
+
+
+
 function performAction(e){
 
     var feelings = document.getElementById('feelings').value;
@@ -60,7 +76,7 @@ function performAction(e){
   
 
  getWeather(baseURL, zipCode,key)
- 
+
     .then(function (data){
 
        const Fulldata={ 
@@ -84,16 +100,3 @@ function performAction(e){
 
 
 
-const UpdateInterface = async () => {
-    const request = await fetch(localhostURL+'/allData');
-    try {
-       const result = await request.json();
-        
-       document.getElementById('temp').innerHTML = result[0].temperature;
-       document.getElementById('date').innerHTML = result[0].date;
-       document.getElementById('content').innerHTML = result[0].user_response;
-    }
-    catch (error) {
-        console.log('error', error);
-    }
-}
