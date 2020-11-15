@@ -1,38 +1,28 @@
-let key = '0689525a777d2bf7d8a9318e0459288d';
+let key = '&appid=0689525a777d2bf7d8a9318e0459288d';
 let baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
+const localhostURL = "http://localhost:8080";
 
 
 
-let date = new Date();
+let dd= new Date();
 
-let newDate = date.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+let newDate = dd.getMonth() + '.' + dd.getDate() + '.' + dd.getFullYear();
+
+
 
 document.getElementById('generate').addEventListener('click', performAction);
 
-function performAction(e){
-    e.preventDefault();
 
-    const feelings = document.getElementById('feelings').value;
-    const zipCode = document.getElementById('zip').value;
+
+
+
+const getWeather = async (baseURL, code,key)=>{
+    const link =baseURL + code + ',us'+ key;
+    const res = await fetch(link);
     
-    console.log(newDate);
-
-    getWeather(baseURL, zipCode, key)
-    .then(function (data){
-       postData('http://localhost:8080/addWeatherData', {temperature: data.main.temp, date: newDate, user_response: feelings } )
-       .then(function() {
-            UpdateInterface()
-        })
-    })
-}
-
-
-const getWeather = async (baseURL, code, key)=>{
-    const res = await fetch(baseURL + code + ',us' + '&APPID=' + key);
-    console.log(res);
     try {
         const Weatherdata = await res.json();
-        console.log(Weatherdata);
+        
      
         return Weatherdata;
     }
@@ -40,7 +30,6 @@ const getWeather = async (baseURL, code, key)=>{
         console.log('error', error);
     }
 }
-
 
 const postData = async (url = '', data = {}) => {
     const res = await fetch(url, {
@@ -63,8 +52,40 @@ const postData = async (url = '', data = {}) => {
 }
 
 
+
+function performAction(e){
+
+    var feelings = document.getElementById('feelings').value;
+    var zipCode = document.getElementById('zip').value;
+  
+
+ getWeather(baseURL, zipCode,key)
+ 
+    .then(function (data){
+
+       const Fulldata={ 
+        temperature: data.main.temp,
+        date: newDate,
+        user_response: feelings  }
+
+       postData(localhostURL+'/addWeatherData', Fulldata )
+       .then(function() {
+            UpdateInterface()
+        })
+    })
+
+
+
+}
+
+
+
+
+
+
+
 const UpdateInterface = async () => {
-    const request = await fetch('http://localhost:8080/allData');
+    const request = await fetch(localhostURL+'/allData');
     try {
        const result = await request.json();
         
