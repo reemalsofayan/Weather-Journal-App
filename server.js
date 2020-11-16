@@ -1,5 +1,5 @@
 
-projectData = [];
+projectData = {};
 
 const express = require('express');
 const app = express();
@@ -30,7 +30,7 @@ app.get('/allData', getData)
 function getData (request, response) {
     response.send(projectData);
 
-    projectData = [];
+  //  projectData = [];
 
 }
 
@@ -41,6 +41,11 @@ function addData(request, response) {
 
     console.log(request.body);
 
+
+//     projectData['date'] = request.body.date;
+//   projectData['temperature'] = request.body.temperature;
+//   projectData['user_response'] = request.body.user_response;
+
     newData = {
 
         temperature:request.body.temperature,
@@ -48,7 +53,9 @@ function addData(request, response) {
         user_response:request.body.user_response
 
     }
-    projectData.push(newData);
+
+  projectData = newData;
+
     response.send(projectData);
 
     console.log(projectData);

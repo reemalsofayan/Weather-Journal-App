@@ -1,5 +1,5 @@
 
-let key = '&appid=0689525a777d2bf7d8a9318e0459288d';
+const key = '&appid=0689525a777d2bf7d8a9318e0459288d&units=imperial';
 let baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 const localhostURL = "http://localhost:8080";
 
@@ -90,9 +90,9 @@ async function UpdateInterface ()  {
     try {
        const result = await request.json();
         
-       document.getElementById('temp').innerHTML = result[0].temperature;
-       document.getElementById('date').innerHTML = result[0].date;
-       document.getElementById('content').innerHTML = result[0].user_response;
+       document.getElementById('temp').innerHTML = result.temperature;
+       document.getElementById('date').innerHTML = result.date;
+       document.getElementById('content').innerHTML = result.user_response;
     }
     catch (error) {
         console.log('error', error);
